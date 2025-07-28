@@ -1,0 +1,56 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><element><id>UMLClass</id><coordinates><x>808</x><y>152</y><w>168</w><h>152</h></coordinates><panel_attributes>Producto
+--
+-id: uint64 
+-precio: DECIMAL(10,2)
+-nombre: string
+-categoria: categoria
++ activo       : bool
++ created_at   : datetime
++ updated_at   : datetime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>416</x><y>152</y><w>168</w><h>152</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+categoria
+--
+BEBIDA
+ENTRADA
+PLATO
+POSTRE
+EXTRA</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>352</x><y>416</y><w>128</w><h>128</h></coordinates><panel_attributes>Mesa
+--
+-id: uint64 
+-numero_mesa: unit64
+-capacidad:unit64
+-estado : Estado
++ created_at   : datetime
++ updated_at   : datetime
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>568</x><y>416</y><w>144</w><h>128</h></coordinates><panel_attributes>Pedido
+--
+-id: uint64
+-mesa_id: unit64 (FK)
+-estado: EstadoPedido
+-total: DECIMAL
++ created_at   : datetime
++ updated_at   : datetime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>816</x><y>416</y><w>176</w><h>152</h></coordinates><panel_attributes>PedidoItem
+--
+-id: uint64
+-pedido_id: unit64 (FK)
+-producto_id: unit64 (FK)
+-cantidad : uint64 
+-precio_unit     : DECIMAL(10,2)  
+-notas           : string (opt.)   
+-subtotal        : DECIMAL(10,2)
++ created_at   : datetime
++ updated_at   : datetime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>408</y><w>168</w><h>152</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+estado
+--
+LIBRE
+OCUPADA
+RESERVADA</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>560</x><y>600</y><w>168</w><h>152</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+estadoPedido
+--
+NUEVO
+EN PREPARACION
+LISTO
+ENTREGADO
+CANCELADO</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>464</y><w>112</w><h>32</h></coordinates><panel_attributes>0..*
+lt=&lt;-</panel_attributes><additional_attributes>120;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>880</x><y>296</y><w>24</w><h>136</h></coordinates><panel_attributes>
+lt=&lt;-</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>704</x><y>464</y><w>128</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element></diagram>
