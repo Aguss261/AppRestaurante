@@ -1,0 +1,36 @@
+﻿
+> frontend@0.0.0 build
+> vue-tsc -b && vite build
+
+src/App.vue(3,25): error TS2307: Cannot find module '@/composables/useCart' or its corresponding type declarations.
+src/App.vue(4,24): error TS2307: Cannot find module '@/components/CartDrawer.vue' or its corresponding type declarations.
+src/App.vue(5,19): error TS2307: Cannot find module '@/components/Toast.vue' or its corresponding type declarations.
+src/components/CartDrawer.vue(2,1): error TS6133: 'computed' is declared but its value is never read.
+src/components/CartDrawer.vue(3,25): error TS2307: Cannot find module '@/composables/useCart' or its corresponding type declarations.
+src/components/CategoryTabs.vue(19,9): error TS2304: Cannot find name 'props'.
+src/components/ProductCard.vue(3,25): error TS2307: Cannot find module '@/composables/useCart' or its corresponding type declarations.
+src/components/ProductCard.vue(16,36): error TS6133: 'items' is declared but its value is never read.
+src/composables/useCart.ts(2,30): error TS2307: Cannot find module '@/stores/cartStore' or its corresponding type declarations.
+src/composables/useCart.ts(3,31): error TS2307: Cannot find module '@/stores/cartStore' or its corresponding type declarations.
+src/composables/useCart.ts(21,35): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/composables/useCart.ts(25,39): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/composables/useCart.ts(41,27): error TS7006: Parameter 'count' implicitly has an 'any' type.
+src/composables/useCart.ts(41,34): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/composables/useOrder.ts(2,30): error TS2307: Cannot find module '@/stores/cartStore' or its corresponding type declarations.
+src/composables/useOrder.ts(3,22): error TS2307: Cannot find module '@/api/http' or its corresponding type declarations.
+src/composables/useOrder.ts(32,49): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/composables/useProducts.ts(2,25): error TS1484: 'Product' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/router/index.ts(1,46): error TS1484: 'RouteRecordRaw' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/views/MenuView.vue(3,29): error TS2307: Cannot find module '@/composables/useProducts' or its corresponding type declarations.
+src/views/MenuView.vue(4,25): error TS2307: Cannot find module '@/composables/useCart' or its corresponding type declarations.
+src/views/MenuView.vue(5,26): error TS2307: Cannot find module '@/composables/useOrder' or its corresponding type declarations.
+src/views/MenuView.vue(7,25): error TS2307: Cannot find module '@/components/ProductCard.vue' or its corresponding type declarations.
+src/views/MenuView.vue(8,24): error TS2307: Cannot find module '@/components/CartDrawer.vue' or its corresponding type declarations.
+src/views/MenuView.vue(9,19): error TS2307: Cannot find module '@/components/Toast.vue' or its corresponding type declarations.
+src/views/MenuView.vue(10,26): error TS2307: Cannot find module '@/components/CategoryTabs.vue' or its corresponding type declarations.
+src/views/MenuView.vue(14,31): error TS6133: 'isOrderLoading' is declared but its value is never read.
+src/views/MenuView.vue(26,32): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/views/MenuView.vue(105,27): error TS2554: Expected 1 arguments, but got 0.
+src/views/SuccessView.vue(4,25): error TS2307: Cannot find module '@/composables/useCart' or its corresponding type declarations.
+vite.config.ts(4,36): error TS2307: Cannot find module 'url' or its corresponding type declarations.
+vite.config.ts(53,55): error TS2339: Property 'url' does not exist on type 'ImportMeta'.
