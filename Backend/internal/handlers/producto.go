@@ -65,6 +65,7 @@ func updateProducto(c *gin.Context) {
     prod.Nombre = input.Nombre
     prod.Categoria = input.Categoria
     prod.Precio = input.Precio
+    prod.Foto = input.Foto
     if err := database.DB.Save(&prod).Error; err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return

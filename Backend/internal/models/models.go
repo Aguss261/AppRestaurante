@@ -41,6 +41,8 @@ type Producto struct {
     Nombre    string    `json:"nombre"`
     Categoria string    `json:"categoria"`
     Precio    float64   `json:"precio"`
+    Foto      string    `json:"foto"`
+    Descripcion string    `json:"descripcion"`
     CreatedAt time.Time `json:"created_at"`
     UpdatedAt time.Time `json:"updated_at"`
 }

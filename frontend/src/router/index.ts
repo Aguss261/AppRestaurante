@@ -2,7 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useCartStore } from '../stores/cartStore'
 
-// Lazy-loaded views
 const MenuView = () => import('../views/MenuView.vue')
 const SuccessView = () => import('../views/SuccessView.vue')
 
@@ -17,6 +16,14 @@ const routes: RouteRecordRaw[] = [
     name: 'Success',
     component: SuccessView,
   },
+  {
+    path: '',
+    redirect: { name: 'Menu' } // Redirige ruta vacía
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: { name: 'Menu' } // Redirige rutas desconocidas
+  }
 ]
 
 const router = createRouter({
@@ -24,7 +31,7 @@ const router = createRouter({
   routes,
 })
 
-// Read mesa_id once and store in Pinia
+// Lee el mesa_id una sola vez al iniciar
 router.beforeEach((to, _from, next) => {
   const store = useCartStore()
   if (!store.mesaId) {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useCart } from '@/composables/useCart'
 import { XMarkIcon, PlusIcon, MinusIcon } from '@heroicons/vue/24/outline'
 
@@ -25,7 +24,8 @@ const handleCheckout = () => {
       <div 
         class="absolute inset-0 bg-black/40 transition-opacity"
         @click="$emit('close')"
-      />
+      >
+      </div>
 
       <!-- Drawer -->
       <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">

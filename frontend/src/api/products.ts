@@ -1,15 +1,15 @@
 import { http } from './http'
 
-export interface Product {
+export interface Producto {
   id: number
-  name: string
-  description: string
-  price: number
-  image: string
-  category: string
+  nombre: string
+  descripcion: string
+  precio: number
+  foto: string
+  categoria: string
 }
 
-export const fetchProducts = async () => {
-  const { data } = await http.get<Product[]>('/productos')
+export const fetchProducts = async (): Promise<Producto[]> => {
+  const { data } = await http.get<Producto[]>('/productos')
   return data
 }

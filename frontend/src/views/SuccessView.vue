@@ -10,13 +10,10 @@ const { clearCart } = useCart()
 // Clear cart when success page is loaded
 onMounted(() => {
   clearCart()
-  
-  // Redirect to home after 5 seconds
-  const timer = setTimeout(() => {
-    router.push({ name: 'Menu' })
+
+  setTimeout(() => {
+    router.push({ name: 'Menu' })  // ✅ redirige a la vista de menú
   }, 5000)
-  
-  return () => clearTimeout(timer)
 })
 </script>
 
