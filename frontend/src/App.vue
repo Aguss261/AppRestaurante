@@ -14,17 +14,7 @@ const { isCartOpen } = useCart()
     <main class="pb-20">
       <RouterView />
     </main>
-
-    <!-- Cart Drawer -->
-    <CartDrawer v-model:open="isCartOpen" />
-    
-    <!-- Toast Notifications -->
-    <Toast
-      :show="true"
-      message="Operación exitosa"
-      type="success"
-    />
-  </div>
+    </div>
 </template>
 
 <style>

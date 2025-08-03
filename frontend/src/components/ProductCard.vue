@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useCart } from '@/composables/useCart'
 
 const props = defineProps<{
@@ -13,87 +13,177 @@ const props = defineProps<{
   }
 }>()
 
-const { addToCart, updateQuantity } = useCart()
-const quantity = ref(0)
+const { addToCart, items } = useCart()
+
+// Get the actual quantity from the cart
+const quantity = computed(() => {
+  const cartItem = items.value.find(item => item.id === props.product.id)
+  return cartItem ? cartItem.quantity : 0
+})
 
 const addToCartHandler = () => {
-  if (quantity.value === 0) {
-    addToCart({
-      id: props.product.id,
-      name: props.product.nombre,
-      price: props.product.precio,
-    })
-  } else {
-    updateQuantity(props.product.id, 1)
-  }
-  quantity.value++
+  addToCart({
+    id: props.product.id,
+    name: props.product.nombre,
+    price: props.product.precio
+  })
 }
 
-const handleImageError = (event: Event) => {
-  const target = event.target as HTMLImageElement
-  target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+const handleImageError = (e: Event) => {
+  (e.target as HTMLImageElement).src =
+    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&crop=center&auto=format&q=80'
+}
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+    minimumFractionDigits: 0
+  }).format(price)
 }
 </script>
 
 <template>
-  <div class="group bg-white/90 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-400 overflow-hidden transform hover:-translate-y-1 hover:scale-[1.01] border border-neutral-200 max-w-xs mx-auto my-4 flex flex-col justify-between min-h-[340px]">
-    <!-- Image Container -->
-    <div class="relative overflow-hidden flex items-center justify-center" style="height:180px;">
+  <div class="product-card">
+    <div class="product-image-container">
       <img 
-        :src="product.foto || '/api/placeholder/400/300'" 
-        :alt="product.nombre" 
-        class="max-h-36 w-auto object-contain mx-auto transition-transform duration-700 group-hover:scale-105 rounded-xl shadow-md bg-white"
-        style="max-width: 90%; max-height: 140px; min-height: 80px;"
+        :src="product.foto" 
+        :alt="product.nombre"
+        class="product-image"
         @error="handleImageError"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      
-      <!-- Category Badge -->
-      <div class="absolute top-4 left-4">
-        <span class="bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-          {{ product.categoria || 'Especialidad' }}
-        </span>
-      </div>
-      
-      <!-- Price Badge -->
-      <div class="absolute top-4 right-4">
-        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full shadow-lg">
-          <span class="text-lg font-bold">${{ product.precio.toFixed(2) }}</span>
-        </div>
+      <div class="product-badge">
+        <span class="badge-icon">🍔</span>
       </div>
     </div>
-
-    <!-- Content -->
-    <div class="px-4 py-3 flex-1 flex flex-col justify-between">
-      <div class="mb-2">
-        <h3 class="text-base font-semibold text-gray-800 mb-1 line-clamp-2 group-hover:text-orange-600 transition-colors duration-300">
-          {{ product.nombre }}
-        </h3>
-        <p class="text-gray-600 text-xs line-clamp-3 leading-snug">
-          {{ product.descripcion || 'Delicioso plato preparado con ingredientes frescos y de la más alta calidad.' }}
-        </p>
-      </div>
-      <!-- Action Button -->
-      <button 
-        @click="addToCartHandler" 
-        class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-2 px-3 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg group-hover:shadow-orange-500/25 text-sm mt-2"
-      >
-        <div class="flex items-center justify-center space-x-2">
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-          <span>
-            {{ quantity === 0 ? 'Agregar al pedido' : `Agregar otro (${quantity})` }}
-          </span>
-        </div>
-      </button>
-    </div>
-
-    <!-- Quantity Indicator -->
-    <div v-if="quantity > 0" class="absolute -top-2 -right-2 z-10">
-      <div class="bg-yellow-400 text-orange-900 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm shadow-lg animate-bounce">
-        {{ quantity }}
+    
+    <div class="product-content">
+      <h3 class="product-title">{{ product.nombre }}</h3>
+      <p class="product-description">{{ product.descripcion }}</p>
+      <div class="product-footer">
+        <span class="product-price">{{ formatPrice(product.precio) }}</span>
+        <button 
+          @click="addToCartHandler" 
+          class="add-to-cart-btn"
+          :class="{ 'added': quantity > 0 }"
+        >
+          <span v-if="quantity === 0">Agregar</span>
+          <span v-else>{{ quantity }}</span>
+        </button>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.product-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 6px 8px;
+  backdrop-filter: blur(10px);
+}
+
+.badge-icon {
+  font-size: 16px;
+}
+
+.product-content {
+  padding: 16px;
+}
+
+.product-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.product-description {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e74c3c;
+}
+
+.add-to-cart-btn {
+  background: #ff6b35;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+}
+
+.add-to-cart-btn:hover {
+  background: #e55a2b;
+  transform: translateY(-1px);
+}
+
+.add-to-cart-btn.added {
+  background: #27ae60;
+}
+
+.add-to-cart-btn.added:hover {
+  background: #219a52;
+}
+</style>
+
