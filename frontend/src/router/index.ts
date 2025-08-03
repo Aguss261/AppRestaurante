@@ -4,12 +4,25 @@ import { useCartStore } from '../stores/cartStore'
 
 const MenuView = () => import('../views/MenuView.vue')
 const SuccessView = () => import('../views/SuccessView.vue')
+const ProductDetailView = () => import('../views/ProductDetailView.vue')
+const CheckoutView = () => import('../views/CheckoutView.vue')
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Menu',
     component: MenuView,
+  },
+  {
+    path: '/product/:id',
+    name: 'ProductDetail',
+    component: ProductDetailView,
+    props: true
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: CheckoutView
   },
   {
     path: '/success',

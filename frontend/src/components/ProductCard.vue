@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCart } from '@/composables/useCart'
 
 const props = defineProps<{
@@ -13,7 +14,8 @@ const props = defineProps<{
   }
 }>()
 
-const { addToCart, items } = useCart()
+const router = useRouter()
+const { items } = useCart()
 
 // Get the actual quantity from the cart
 const quantity = computed(() => {
@@ -21,12 +23,8 @@ const quantity = computed(() => {
   return cartItem ? cartItem.quantity : 0
 })
 
-const addToCartHandler = () => {
-  addToCart({
-    id: props.product.id,
-    name: props.product.nombre,
-    price: props.product.precio
-  })
+const goToProductDetail = () => {
+  router.push(`/product/${props.product.id}`)
 }
 
 const handleImageError = (e: Event) => {
@@ -44,7 +42,7 @@ const formatPrice = (price: number) => {
 </script>
 
 <template>
-  <div class="product-card">
+  <div class="product-card" @click="goToProductDetail">
     <div class="product-image-container">
       <img 
         :src="product.foto" 
@@ -53,7 +51,15 @@ const formatPrice = (price: number) => {
         @error="handleImageError"
       />
       <div class="product-badge">
-        <span class="badge-icon">🍔</span>
+        <span class="badge-icon">
+          <span v-if="product.categoria?.toLowerCase() === 'comida'">🍔</span>
+          <span v-else>🥤</span>
+        </span>
+      </div>
+      
+      <!-- Quantity indicator if item is in cart -->
+      <div v-if="quantity > 0" class="quantity-indicator">
+        {{ quantity }}
       </div>
     </div>
     
@@ -62,14 +68,10 @@ const formatPrice = (price: number) => {
       <p class="product-description">{{ product.descripcion }}</p>
       <div class="product-footer">
         <span class="product-price">{{ formatPrice(product.precio) }}</span>
-        <button 
-          @click="addToCartHandler" 
-          class="add-to-cart-btn"
-          :class="{ 'added': quantity > 0 }"
-        >
-          <span v-if="quantity === 0">Agregar</span>
-          <span v-else>{{ quantity }}</span>
-        </button>
+        <div class="view-details-btn">
+          <span v-if="quantity === 0">Ver detalles</span>
+          <span v-else class="in-cart">En carrito ({{ quantity }})</span>
+        </div>
       </div>
     </div>
   </div>
@@ -160,30 +162,48 @@ const formatPrice = (price: number) => {
   color: #e74c3c;
 }
 
-.add-to-cart-btn {
+.quantity-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.view-details-btn {
   background: #ff6b35;
   color: white;
-  border: none;
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
   transition: all 0.2s ease;
   min-width: 70px;
+  text-align: center;
+  cursor: pointer;
 }
 
-.add-to-cart-btn:hover {
+.product-card:hover .view-details-btn {
   background: #e55a2b;
   transform: translateY(-1px);
 }
 
-.add-to-cart-btn.added {
-  background: #27ae60;
+.view-details-btn .in-cart {
+  color: #ffffff;
+  font-weight: 700;
 }
 
-.add-to-cart-btn.added:hover {
-  background: #219a52;
+.product-card:hover .view-details-btn .in-cart {
+  color: #219a52;
 }
 </style>
 

@@ -76,9 +76,6 @@ const categories = [
         <div class="category-header">
           <span class="category-icon">{{ category.icon }}</span>
           <h2 class="category-title">{{ category.title }}</h2>
-          <div class="category-count">
-            {{ productsByCategory[category.key].length }} productos
-          </div>
         </div>
         
         <div class="products-grid">

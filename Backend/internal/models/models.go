@@ -4,9 +4,9 @@ import "time"
 
 // MesaEstado enumeration
 const (
-    MesaLibre     = "LIBRE"
-    MesaOcupada   = "OCUPADA"
-    MesaReservada = "RESERVADA"
+    Libre     = "LIBRE"
+    Ocupada   = "OCUPADA"
+    Reservada = "RESERVADA"
 )
 
 // Categoria enumeration
@@ -28,11 +28,10 @@ const (
 // Mesa model
 type Mesa struct {
     ID         uint      `gorm:"primaryKey" json:"id"`
-    NumeroMesa uint      `json:"numero_mesa"`
+    NumeroMesa uint      `gorm:"uniqueIndex" json:"numero_mesa"` // ✅ debe ser único para poder ser FK
     Estado     string    `json:"estado"`
     CreatedAt  time.Time `json:"created_at"`
     UpdatedAt  time.Time `json:"updated_at"`
-    Pedidos    []Pedido  `json:"pedidos,omitempty"`
 }
 
 // Producto model
@@ -49,12 +48,12 @@ type Producto struct {
 
 // Pedido model
 type Pedido struct {
-    ID        uint         `gorm:"primaryKey" json:"id"`
-    MesaID    uint         `json:"mesa_id"`
-    Estado    string       `json:"estado"`
-    CreatedAt time.Time    `json:"created_at"`
-    UpdatedAt time.Time    `json:"updated_at"`
-    Items     []PedidoItem `json:"items,omitempty"`
+    ID         uint         `gorm:"primaryKey" json:"id"`
+    NumeroMesa uint         `json:"numero_mesa"` // ✅ esta es la FK hacia Mesa.NumeroMesa
+    Estado     string       `json:"estado"`
+    CreatedAt  time.Time    `json:"created_at"`
+    UpdatedAt  time.Time    `json:"updated_at"`
+    Items      []PedidoItem `json:"items,omitempty"`
 }
 
 // PedidoItem model

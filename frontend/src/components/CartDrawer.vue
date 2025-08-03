@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { useCart } from '@/composables/useCart'
 
 const { 
@@ -9,19 +10,21 @@ const {
   updateQuantity 
 } = useCart()
 
+const router = useRouter()
+
 const props = defineProps<{
   show: boolean
 }>()
 
-const emit = defineEmits(['update:show', 'checkout'])
+const emit = defineEmits(['update:show'])
 
 const closeDrawer = () => {
   emit('update:show', false)
 }
 
 const handleCheckout = () => {
-  emit('checkout')
   closeDrawer()
+  router.push('/checkout')
 }
 
 const formatPrice = (price: number) => {

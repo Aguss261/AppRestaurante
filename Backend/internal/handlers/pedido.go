@@ -46,6 +46,7 @@ func createPedido(c *gin.Context) {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
+    pedido.NumeroMesa = 4
     if pedido.Estado == "" {
         pedido.Estado = models.PedidoNuevo
     }

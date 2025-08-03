@@ -19,7 +19,7 @@ export const useOrder = () => {
       error.value = 'El carrito está vacío'
       return null
     }
-
+    cart.mesaId = 4
     if (!cart.mesaId) {
       error.value = 'No se ha especificado la mesa'
       return null
