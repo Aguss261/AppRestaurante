@@ -15,6 +15,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./Backend/restaurante_app_dump.sql:/docker-entrypoint-initdb.d/01-restaurante_app_dump.sql
     networks:
       - restaurante_network
     healthcheck:
